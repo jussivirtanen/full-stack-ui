@@ -1,0 +1,105 @@
+/* Basic reset */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  font-weight: normal;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+/* Design system with CSS custom properties */
+
+/*
+  - Colors
+  - Spacings
+  - Font sizes
+  - Radii
+  - Borders
+  - Shadows
+  - Utilities
+*/
+
+:root {
+  /* Blues */
+  --color-blue-100: #f5faff;
+  --color-blue-200: #b8dcff;
+  --color-blue-300: #7ab8ff;
+  --color-blue-400: #3d90ff;
+  --color-blue-500: #0064fe;
+  --color-blue-600: #0046d1;
+  --color-blue-700: #002ba3;
+  --color-blue-800: #001575;
+  --color-blue-900: #000647;
+
+  /* Grays */
+  --color-gray-100: #f3f5f6;
+  --color-gray-200: #d0d8dd;
+  --color-gray-300: #aebac2;
+  --color-gray-400: #8d9ca7;
+  --color-gray-500: #6c7d8b;
+  --color-gray-600: #576674;
+  --color-gray-700: #424e5c;
+  --color-gray-800: #2e3843;
+  --color-gray-900: #1c212a;
+
+  /* Neutrals */
+  --colow-white: white;
+  --color-black: black;
+
+  /* Misc */
+  --color-border: var(--color-gray-200);
+
+  /* Spacing */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+
+  /* Font sizes */
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+
+  /* Border radius */
+  --radius: 6px;
+  --round: 1000px;
+
+  /* Borders */
+  --border: 1px solid var(--color-border);
+
+  /* Shadows */
+  --shadow: 0px 2px 8px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.text-sm {
+  font-size: var(--text-sm);
+}
+
+.text-md {
+  font-size: var(--text-md);
+}
+
+.text-lg {
+  font-size: var(--text-lg);
+}
+
+.text-xl {
+  font-size: var(--text-xl);
+}
+
+.bold {
+  font-weight: bold;
+}
