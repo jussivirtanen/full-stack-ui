@@ -13,10 +13,12 @@
 }
 
 html {
+  /* Centering content for demo purposes */
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
+  /* Global styles */
   font-family: sans-serif;
   background-color: var(--color-blue-100);
 }
