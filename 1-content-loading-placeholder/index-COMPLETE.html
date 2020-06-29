@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../base.css" />
+    <title>Content loading placeholder</title>
+    <style>
+      .loader {
+        width: 300px;
+        padding: var(--space-4);
+        border: var(--border);
+        margin-bottom: var(--space-4);
+        background-color: var(--color-white);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+      .bar {
+        position: relative;
+        width: 100%;
+        height: var(--space-2);
+        margin-bottom: var(--space-2);
+        overflow: hidden;
+        border-radius: var(--round);
+        background-color: var(--color-gray-200);
+      }
+      .bar:last-child {
+        margin-bottom: 0;
+      }
+      .bar:after {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 100%;
+        width: 100px;
+        top: 0;
+        left: -100px;
+        animation: load 0.7s ease-out infinite;
+        background-image: linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.5) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+      }
+      .bar-2 {
+        width: 55%;
+      }
+      .bar-3 {
+        width: 77%;
+      }
+      @keyframes load {
+        from {
+          left: -100px;
+        }
+        to {
+          left: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="loader">
+        <div class="bar bar-1"></div>
+        <div class="bar bar-2"></div>
+        <div class="bar bar-3"></div>
+      </div>
+      <div class="loader">
+        <div class="bar bar-1"></div>
+        <div class="bar bar-2"></div>
+        <div class="bar bar-3"></div>
+      </div>
+    </div>
+    <script>
+      // Get all bars by their class "bar"
+      const bars = document.querySelectorAll('.bar');
+      // Define boundaries for bar width
+      const min = 40;
+      const max = 100;
+
+      // Loop through all bars
+      bars.forEach((bar) => {
+        // Add random width for each bar
+        bar.style.width = `${Math.random() * (max - min) + min}%`;
+      });
+    </script>
+  </body>
+</html>

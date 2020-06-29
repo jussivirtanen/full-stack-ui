@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../base.css" />
+    <title>Save button</title>
+    <style>
+      button {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: var(--space-3) var(--space-5);
+        background-color: var(--color-blue-500);
+        color: white;
+        border: 0;
+        border-radius: var(--radius);
+        font-weight: bold;
+        font-size: var(--text-lg);
+        cursor: pointer;
+        outline: none;
+      }
+      button.active {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      button:focus {
+        box-shadow: 0 0 0 var(--space-1) var(--color-blue-200);
+      }
+      button.active .text {
+        margin-right: var(--space-8);
+      }
+      button.active .loader {
+        animation: spin 0.3s linear infinite;
+        opacity: 1;
+      }
+      .text {
+        transition: margin-right 0.2s var(--transition-curve-bounce);
+        margin-right: 0;
+      }
+      .loader {
+        position: absolute;
+        right: var(--space-5);
+        width: var(--space-4);
+        height: var(--space-4);
+        margin-left: var(--space-3);
+        border-left: 2px solid var(--color-white);
+        border-top: 2px solid var(--color-white);
+        border-radius: var(--round);
+        opacity: 0;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <button>
+        <div class="text">Save</div>
+        <div class="loader"></div>
+      </button>
+    </div>
+    <!-- Your JavaScript here -->
+    <script>
+      const button = document.querySelector('button');
+
+      const handleClick = (event) => {
+        // Clicked button
+        const button = event.currentTarget;
+        // Text within button
+        const text = button.querySelector('.text');
+        // Spinner within button
+        const loader = button.querySelector('.loader');
+        button.classList.add('active');
+        button.disabled = true;
+        text.innerText = 'Saving';
+        setTimeout(() => {
+          button.classList.remove('active');
+          text.innerText = 'Save';
+          button.disabled = false;
+          button.focus();
+        }, 1000);
+      };
+
+      button.addEventListener('click', handleClick);
+    </script>
+  </body>
+</html>
