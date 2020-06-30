@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../base.css" />
+    <title>Plus minus buttons</title>
+    <style>
+      .container {
+        padding: 0 var(--space-8);
+        border: var(--border);
+        background-color: var(--color-white);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        width: 600px;
+        max-width: 100%;
+        margin: 0 auto;
+      }
+      .input-row {
+        display: flex;
+        padding: var(--space-8) 0;
+      }
+      .input-row:first-child {
+        border-bottom: var(--border);
+      }
+      .title {
+        margin-right: var(--space-8);
+      }
+      .label {
+        margin-bottom: var(--space-1);
+        font-weight: bold;
+      }
+      .description {
+        color: var(--color-gray-600);
+      }
+      .input {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+      }
+      button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: var(--space-12);
+        height: var(--space-12);
+        border: 1px solid var(--color-blue-500);
+        border-radius: var(--round);
+        background-color: var(--color-white);
+      }
+      button:hover {
+        background-color: var(--color-blue-200);
+        cursor: pointer;
+      }
+      button:focus {
+        outline: none;
+        box-shadow: 0 0 0 var(--space-1) var(--color-white),
+          0 0 0 var(--space-2) var(--color-blue-200);
+      }
+      button[disabled] {
+        opacity: var(--opacity-50);
+        pointer-events: none;
+      }
+      button:active {
+        background-color: var(--color-blue-300);
+      }
+      /* For Firefox */
+      ::-moz-focus-inner {
+        border: 0;
+      }
+
+      .number {
+        font-size: var(--text-lg);
+        min-width: var(--space-12);
+        text-align: center;
+      }
+      .icon {
+        user-select: none;
+      }
+      .dim {
+        color: var(--color-gray-400);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="input-row">
+        <div class="title">
+          <h2 class="label">Adults</h2>
+          <p class="description">People who are over 18 years old.</p>
+        </div>
+        <div class="input">
+          <button class="minus" aria-label="Decrease by one" disabled>
+            <img src="icon-minus.svg" alt="" class="icon" />
+          </button>
+          <div class="number dim">0</div>
+          <button class="plus" aria-label="Increase by one">
+            <img src="icon-plus.svg" alt="" class="icon" />
+          </button>
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="title">
+          <h2 class="label">Adults</h2>
+          <p class="description">People who are over 18 years old.</p>
+        </div>
+        <div class="input">
+          <button class="minus" aria-label="Decrease by one" disabled>
+            <img src="icon-minus.svg" alt="" class="icon" />
+          </button>
+          <div class="number dim">0</div>
+          <button class="plus" aria-label="Increase by one">
+            <img src="icon-plus.svg" alt="" class="icon" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Your JavaScript here -->
+    <script>
+      const buttons = document.querySelectorAll('button');
+      const minValue = 0;
+      const maxValue = 10;
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+          // 1. Get the clicked element
+          const element = event.currentTarget;
+          // 2. Get the parent
+          const parent = element.parentNode;
+          // 3. Get the number (within the parent)
+          const numberContainer = parent.querySelector('.number');
+          const number = parseFloat(numberContainer.textContent);
+          // 4. Get the minus and plus buttons
+          const increment = parent.querySelector('.plus');
+          const decrement = parent.querySelector('.minus');
+          // 5. Change the number based on click (either plus or minus)
+          const newNumber = element.classList.contains('plus')
+            ? number + 1
+            : number - 1;
+          numberContainer.textContent = newNumber;
+          console.log(newNumber);
+          // 6. Disable and enable buttons based on number value (and undim number)
+          if (newNumber === minValue) {
+            decrement.disabled = true;
+            numberContainer.classList.add('dim');
+          } else if (newNumber > minValue && newNumber < maxValue) {
+            decrement.disabled = false;
+            increment.disabled = false;
+            numberContainer.classList.remove('dim');
+          } else if (newNumber === maxValue) {
+            increment.disabled = true;
+            numberContainer.textContent = `${newNumber}+`;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
