@@ -98,6 +98,12 @@ html {
   /* Transition curves */
   --transition-curve: cubic-bezier(0.2, 0.7, 0.3, 1);
   --transition-curve-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* Opacities */
+  --opacity-25: 0.25;
+  --opacity-50: 0.5;
+  --opacity-75: 0.75;
+  --opacity-100: 1;
 }
 
 .text-sm {
