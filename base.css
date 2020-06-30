@@ -12,12 +12,17 @@
   font-weight: normal;
 }
 
+body,
 html {
+  height: 100%;
+}
+
+body {
   /* Centering content for demo purposes */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  padding: var(--space-8);
   /* Global styles */
   font-family: sans-serif;
   background-color: var(--color-blue-100);
