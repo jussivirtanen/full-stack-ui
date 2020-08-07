@@ -53,6 +53,17 @@ body {
   --color-blue-800: #001575;
   --color-blue-900: #000647;
 
+  /* Blues */
+  --color-green-100: #f0fcf5;
+  --color-green-200: #b4eece;
+  --color-green-300: #78e0a7;
+  --color-green-400: #3cd180;
+  --color-green-500: #00c159;
+  --color-green-600: #009645;
+  --color-green-700: #006a31;
+  --color-green-800: #003f1d;
+  --color-green-900: #001309;
+
   /* Grays */
   --color-gray-100: #f3f5f6;
   --color-gray-200: #d0d8dd;
