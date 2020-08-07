@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../base.css" />
+    <title>Chat</title>
+    <style>
+      /* Chat */
+      .chat {
+        position: fixed;
+        right: var(--space-4);
+        bottom: var(--space-12);
+        width: 250px;
+        border-radius: var(--radius);
+        opacity: 0;
+        transform: translateY(var(--space-8)) scale(0.9);
+        transform-origin: right;
+        pointer-events: none;
+        transition: all 0.2s var(--transition-curve);
+        overflow: hidden;
+        border: var(--border);
+        background-color: var(--color-white);
+      }
+      .chat.visible {
+        opacity: 1;
+        pointer-events: all;
+        transform: translateY(0) scale(1);
+      }
+      .window {
+        display: flex;
+        flex-direction: column;
+        height: 250px;
+        padding: var(--space-3);
+        overflow-y: scroll;
+        background-color: var(--color-white);
+      }
+      .bubble {
+        max-width: 80%;
+        font-size: var(--text-sm);
+        padding: var(--space-1) var(--space-2);
+        margin-bottom: var(--space-1);
+        align-self: flex-start;
+        word-break: break-word;
+        background-color: var(--color-gray-100);
+        border-radius: var(--radius);
+      }
+      .bubble:last-child {
+        margin-bottom: 0;
+      }
+      .own {
+        align-self: flex-end;
+        background-color: var(--color-blue-500);
+        color: var(--color-white);
+      }
+      .own + .guest {
+        margin-top: var(--space-1);
+      }
+      .guest + .own {
+        margin-top: var(--space-1);
+      }
+      .input {
+        display: flex;
+        padding: var(--space-2);
+        border-top: var(--border);
+      }
+      .field {
+        font-size: var(--text-md);
+        padding: var(--space-1);
+        border: 0;
+        outline: none;
+      }
+      .send {
+        padding: var(--space-2) var(--space-3);
+        border: 0;
+        font-weight: bold;
+        border-radius: var(--radius);
+        color: var(--color-text-light);
+        transition: var(--transition);
+        outline: none;
+      }
+      .send:focus {
+        box-shadow: var(--shadow-focus);
+      }
+      .send.active {
+        cursor: pointer;
+        color: var(--color-white);
+        background-color: var(--color-blue-500);
+      }
+      /* Toggle */
+      .toggle {
+        font-size: var(--text-sm);
+        position: fixed;
+        bottom: var(--space-2);
+        right: var(--space-4);
+        min-width: var(--space-16);
+        padding: var(--space-2) var(--space-3);
+        border: var(--border);
+        border-radius: var(--radius);
+        outline: none;
+        user-select: none;
+        background-color: var(--color-white);
+        color: var(--color-gray-900);
+        transition: min-width 0.2s var(--transition-curve);
+      }
+      .toggle:hover,
+      .toggle:focus {
+        cursor: pointer;
+        border-color: var(--color-gray-300);
+      }
+      .toggle:active {
+        border-color: var(--color-gray-400);
+      }
+      .name {
+        display: flex;
+        align-items: center;
+      }
+      .name:before {
+        display: block;
+        content: '';
+        width: var(--space-2);
+        height: var(--space-2);
+        margin-right: var(--space-2);
+        border: 1px solid var(--color-green-600);
+        background-color: var(--color-green-400);
+        border-radius: var(--round);
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <!-- Your HTML here -->
+      <button class="toggle">
+        <div class="name">John Wick</div>
+      </button>
+      <div class="chat" aria-hidden="true">
+        <div class="window">
+          <div class="bubble guest">
+            Hi man! Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Aspernatur esse commodi.
+          </div>
+          <div class="bubble own">
+            Sounds great!
+          </div>
+        </div>
+        <div class="input">
+          <input type="text" class="field" />
+          <button class="send">Send</button>
+        </div>
+      </div>
+    </div>
+    <!-- Your JavaScript here -->
+    <script>
+      const chatContainer = document.querySelector('.chat');
+      const chatField = document.querySelector('.field');
+      const sendButton = document.querySelector('.send');
+      const chatWindow = document.querySelector('.window');
+      const chatToggle = document.querySelector('.toggle');
+      let menuOpen = false;
+
+      const originalWidth = chatToggle.offsetWidth;
+      chatToggle.style.minWidth = `${originalWidth}px`;
+
+      const addMsg = () => {
+        if (chatField.value.length > 0 && chatField.value.trim()) {
+          createBubble(chatWindow, chatField.value, 'own');
+          chatField.value = '';
+          sendButton.classList.remove('active');
+          chatField.focus();
+        }
+      };
+
+      const createBubble = (destination, message, owner = 'own') => {
+        const chatBubble = document.createElement('div');
+        chatBubble.className = 'bubble';
+        if (owner == 'own') {
+          chatBubble.classList.add('own');
+        } else {
+          chatBubble.classList.add('guest');
+        }
+        chatBubble.innerText = message;
+        destination.appendChild(chatBubble);
+        destination.scrollTop = destination.scrollHeight;
+      };
+
+      const resizeToggle = () => {
+        if (!menuOpen) {
+          chatToggle.style.minWidth = `${chatWidth}px`;
+        } else {
+          chatToggle.style.minWidth = `${originalWidth}px`;
+        }
+      };
+
+      const toggleChat = (event) => {
+        chatWidth = chatContainer.offsetWidth;
+        resizeToggle();
+        chatContainer.classList.toggle('visible');
+        event.currentTarget.classList.toggle('open');
+        chatContainer.setAttribute('aria-hidden', false);
+        menuOpen = !menuOpen;
+        event.stopPropagation();
+        chatField.focus();
+      };
+
+      const closeChat = () => {
+        chatContainer.classList.remove('visible');
+        chatContainer.setAttribute('aria-hidden', true);
+        chatToggle.classList.remove('open');
+        resizeToggle();
+        menuOpen = false;
+        chatField.blur();
+        chatToggle.focus();
+      };
+
+      sendButton.addEventListener('click', addMsg);
+
+      chatToggle.addEventListener('click', toggleChat);
+
+      window.addEventListener('keydown', function (e) {
+        if (e.key == 'Enter') {
+          addMsg();
+        }
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key == 'Escape' && menuOpen) {
+          closeChat();
+        }
+      });
+
+      window.addEventListener('click', (e) => {
+        console.log('container:', chatContainer);
+        console.log('event target:', e.target);
+        if (menuOpen && !chatContainer.contains(e.target)) {
+          closeChat();
+        }
+      });
+
+      chatField.addEventListener('input', () => {
+        if (chatField.value.length > 0 && chatField.value.trim()) {
+          sendButton.classList.add('active');
+        } else {
+          sendButton.classList.remove('active');
+        }
+      });
+
+      // const addRandomMsg = () => {
+      //   setInterval(() => {
+      //     createBubble(chatWindow, "I'm still here dude!", '');
+      //   }, 1000);
+      // };
+
+      // addRandomMsg();
+    </script>
+  </body>
+</html>
