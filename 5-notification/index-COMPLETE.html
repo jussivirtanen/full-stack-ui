@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../base.css" />
+    <title>Notification</title>
+    <style>
+      /* Your styles here */
+      .list {
+        list-style-type: none;
+        position: absolute;
+        top: 1em;
+        right: 1em;
+      }
+      .notification {
+        position: absolute;
+        top: 1em;
+        right: 1em;
+        display: flex;
+        padding: 1.5em;
+        width: 300px;
+        background-color: lightgray;
+        transition: var(--transition);
+        margin-bottom: var(--space-2);
+      }
+      .close {
+        padding: 0.5em;
+        margin-left: auto;
+      }
+      .add {
+        padding: 1em;
+      }
+      .animate-out {
+        animation: fade-out 0.5s var(--transition-curve);
+      }
+      @keyframes fade-out {
+        to {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <button class="add">Add +</button>
+      <div class="notification">
+        1. test content <button class="close">x</button>
+      </div>
+    </div>
+
+    <!-- Your JavaScript here -->
+    <script>
+      const addButton = document.querySelector('.add');
+      const notificationPosition = document.body.querySelector('div');
+      const margin = 16;
+
+      const removeNotification = (event) => {
+        const closeButton = event.currentTarget;
+        const notification = closeButton.parentNode;
+        let restNotifications = [];
+        let next = notification.nextElementSibling;
+        while (next) {
+          restNotifications.push(next);
+          next = next.nextElementSibling;
+        }
+        restNotifications.forEach((item) => {
+          const curOffset = item.getBoundingClientRect().top;
+          item.style.transform = `translateY(${
+            curOffset - notification.offsetHeight
+          }px)`;
+        });
+        notification.classList.add('animate-out');
+        notification.addEventListener('animationend', () => {
+          notification.parentNode.removeChild(notification);
+        });
+        console.log(restNotifications);
+      };
+
+      const buttons = document.querySelectorAll('.close');
+      buttons.forEach((button) =>
+        button.addEventListener('click', removeNotification)
+      );
+
+      const addNotification = () => {
+        const notification = document.createElement('div');
+        const allNotifications = Array.from(
+          document.querySelectorAll('.notification')
+        );
+        notification.classList.add('notification');
+        const randomContent = 'lorem ipsum '.repeat(
+          Math.floor(Math.random() * 12 + 1)
+        );
+        notification.innerHTML = `
+          ${randomContent} <button class="close">x</button>
+        `;
+        const closeButton = notification.querySelector('.close');
+        closeButton.addEventListener('click', removeNotification);
+        const height = allNotifications
+          .map((item) => item.offsetHeight)
+          .reduce((acc, cur) => {
+            return (acc += cur + margin);
+          }, 0);
+        notification.style.transform = `translateY(${height}px)`;
+        notificationPosition.appendChild(notification);
+      };
+
+      addButton.addEventListener('click', addNotification);
+    </script>
+  </body>
+</html>
