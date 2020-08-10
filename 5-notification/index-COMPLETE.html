@@ -78,41 +78,21 @@
         closeButton.addEventListener('click', removeNotification);
         // Position notification
         notification.style.top = `${margin}px`;
-        // const height = allNotifications
-        //   .map((item) => item.offsetHeight)
-        //   .reduce((acc, cur) => {
-        //     return (acc += cur + margin);
-        //   }, 0);
-        // notification.style.top = `translateY(${height}px)`;
-        // console.log(allNotifications);
         // Add notification on the page
-        // document.body.insertBefore(notification, addButton.parentNode);
         notificationPosition.prepend(notification);
         // Move other notifications down
         // 1. Get height of the newly added notification
         const currentHeight = notification.offsetHeight;
+        // Get all notifications and turn them into an array
+        const restNotifications = Array.from(
+          document.querySelectorAll('.notification')
+        ).slice(1);
         // 2. Add that height to the rest of the notifications
-        // Get all notifications and turn them into an array
-        const allNotifications = Array.from(
-          document.querySelectorAll('.notification')
-        );
-        allNotifications.forEach((item) => {
-          item.style.top = `${parseInt(item.style.top) + currentHeight}px`;
-          console.log(item.style.top);
+        restNotifications.forEach((item) => {
+          item.style.top = `${
+            parseInt(item.style.top) + currentHeight + margin
+          }px`;
         });
-      };
-
-      const moveNotifications = () => {
-        // Get all notifications and turn them into an array
-        const allNotifications = Array.from(
-          document.querySelectorAll('.notification')
-        );
-        const height = allNotifications
-          .map((item) => item.offsetHeight)
-          .reduce((acc, cur) => {
-            return (acc += cur + margin);
-          }, 0);
-        notification.style.transform = `translateY(${height}px)`;
       };
 
       addButton.addEventListener('click', addNotification);
