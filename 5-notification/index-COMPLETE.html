@@ -15,14 +15,14 @@
       }
       .notification {
         position: absolute;
-        top: 1em;
         right: 1em;
         display: flex;
         padding: 1.5em;
         width: 300px;
+        transform: translateX(300px);
         background-color: lightgray;
         transition: var(--transition);
-        margin-bottom: var(--space-2);
+        animation: slide-in 0.5s var(--transition-curve) forwards;
       }
       .close {
         padding: 0.5em;
@@ -39,21 +39,83 @@
           opacity: 0;
         }
       }
+      @keyframes slide-in {
+        to {
+          transform: translateX(0);
+        }
+      }
     </style>
   </head>
   <body>
     <div>
       <button class="add">Add +</button>
-      <div class="notification">
-        1. test content <button class="close">x</button>
-      </div>
     </div>
+
+    <!-- Idea: transform for sideways animations and top for vertical movement (and animation) -->
 
     <!-- Your JavaScript here -->
     <script>
       const addButton = document.querySelector('.add');
       const notificationPosition = document.body.querySelector('div');
       const margin = 16;
+
+      const addNotification = () => {
+        // Create notification
+        const notification = document.createElement('div');
+        // Add class "notification"
+        notification.classList.add('notification');
+        // Create random content for notification
+        const randomContent = 'lorem ipsum '.repeat(
+          Math.floor(Math.random() * 12 + 1)
+        );
+        // Insert random content and close button
+        notification.innerHTML = `
+          ${randomContent} <button class="close">x</button>
+        `;
+        // Get close button within notification
+        const closeButton = notification.querySelector('.close');
+        // Listen for the button and attach "removeNotification" function to it
+        closeButton.addEventListener('click', removeNotification);
+        // Position notification
+        notification.style.top = `${margin}px`;
+        // const height = allNotifications
+        //   .map((item) => item.offsetHeight)
+        //   .reduce((acc, cur) => {
+        //     return (acc += cur + margin);
+        //   }, 0);
+        // notification.style.top = `translateY(${height}px)`;
+        // console.log(allNotifications);
+        // Add notification on the page
+        // document.body.insertBefore(notification, addButton.parentNode);
+        notificationPosition.prepend(notification);
+        // Move other notifications down
+        // 1. Get height of the newly added notification
+        const currentHeight = notification.offsetHeight;
+        // 2. Add that height to the rest of the notifications
+        // Get all notifications and turn them into an array
+        const allNotifications = Array.from(
+          document.querySelectorAll('.notification')
+        );
+        allNotifications.forEach((item) => {
+          item.style.top = `${parseInt(item.style.top) + currentHeight}px`;
+          console.log(item.style.top);
+        });
+      };
+
+      const moveNotifications = () => {
+        // Get all notifications and turn them into an array
+        const allNotifications = Array.from(
+          document.querySelectorAll('.notification')
+        );
+        const height = allNotifications
+          .map((item) => item.offsetHeight)
+          .reduce((acc, cur) => {
+            return (acc += cur + margin);
+          }, 0);
+        notification.style.transform = `translateY(${height}px)`;
+      };
+
+      addButton.addEventListener('click', addNotification);
 
       const removeNotification = (event) => {
         const closeButton = event.currentTarget;
@@ -77,35 +139,10 @@
         console.log(restNotifications);
       };
 
-      const buttons = document.querySelectorAll('.close');
-      buttons.forEach((button) =>
-        button.addEventListener('click', removeNotification)
-      );
-
-      const addNotification = () => {
-        const notification = document.createElement('div');
-        const allNotifications = Array.from(
-          document.querySelectorAll('.notification')
-        );
-        notification.classList.add('notification');
-        const randomContent = 'lorem ipsum '.repeat(
-          Math.floor(Math.random() * 12 + 1)
-        );
-        notification.innerHTML = `
-          ${randomContent} <button class="close">x</button>
-        `;
-        const closeButton = notification.querySelector('.close');
-        closeButton.addEventListener('click', removeNotification);
-        const height = allNotifications
-          .map((item) => item.offsetHeight)
-          .reduce((acc, cur) => {
-            return (acc += cur + margin);
-          }, 0);
-        notification.style.transform = `translateY(${height}px)`;
-        notificationPosition.appendChild(notification);
-      };
-
-      addButton.addEventListener('click', addNotification);
+      // const buttons = document.querySelectorAll('.close');
+      // buttons.forEach((button) =>
+      //   button.addEventListener('click', removeNotification)
+      // );
     </script>
   </body>
 </html>
