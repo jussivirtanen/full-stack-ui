@@ -19,7 +19,6 @@
         display: flex;
         padding: 1.5em;
         width: 300px;
-        transform: translateX(300px);
         background-color: lightgray;
         transition: var(--transition);
         animation: slide-in 0.5s var(--transition-curve) forwards;
@@ -37,9 +36,13 @@
       @keyframes fade-out {
         to {
           opacity: 0;
+          transform: translateX(300px);
         }
       }
       @keyframes slide-in {
+        from {
+          transform: translateX(300px);
+        }
         to {
           transform: translateX(0);
         }
@@ -83,11 +86,11 @@
         // Move other notifications down
         // 1. Get height of the newly added notification
         const currentHeight = notification.offsetHeight;
-        // Get all notifications and turn them into an array
+        // 2. Get the rest of the notifications and turn them into an array
         const restNotifications = Array.from(
           document.querySelectorAll('.notification')
         ).slice(1);
-        // 2. Add that height to the rest of the notifications
+        // 3. Add the currently added notification's height to the rest of the notifications
         restNotifications.forEach((item) => {
           item.style.top = `${
             parseInt(item.style.top) + currentHeight + margin
@@ -95,34 +98,29 @@
         });
       };
 
-      addButton.addEventListener('click', addNotification);
-
       const removeNotification = (event) => {
         const closeButton = event.currentTarget;
         const notification = closeButton.parentNode;
+        const currentHeight = notification.offsetHeight;
         let restNotifications = [];
         let next = notification.nextElementSibling;
         while (next) {
           restNotifications.push(next);
           next = next.nextElementSibling;
         }
+        console.log(restNotifications);
         restNotifications.forEach((item) => {
-          const curOffset = item.getBoundingClientRect().top;
-          item.style.transform = `translateY(${
-            curOffset - notification.offsetHeight
-          }px)`;
+          item.style.top = `${
+            parseInt(item.style.top) - currentHeight - margin
+          }px`;
         });
         notification.classList.add('animate-out');
         notification.addEventListener('animationend', () => {
           notification.parentNode.removeChild(notification);
         });
-        console.log(restNotifications);
       };
 
-      // const buttons = document.querySelectorAll('.close');
-      // buttons.forEach((button) =>
-      //   button.addEventListener('click', removeNotification)
-      // );
+      addButton.addEventListener('click', addNotification);
     </script>
   </body>
 </html>
