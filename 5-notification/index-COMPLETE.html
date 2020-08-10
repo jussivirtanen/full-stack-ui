@@ -7,41 +7,69 @@
     <title>Notification</title>
     <style>
       /* Your styles here */
+      :root {
+        --notification-size: 350px;
+      }
       .list {
         list-style-type: none;
         position: absolute;
-        top: 1em;
-        right: 1em;
+        top: var(--space-4);
+        right: var(--space-4);
       }
       .notification {
         position: absolute;
-        right: 1em;
         display: flex;
-        padding: 1.5em;
-        width: 300px;
-        background-color: lightgray;
+        align-items: center;
+        right: var(--space-4);
+        padding: var(--space-4);
+        width: var(--notification-size);
+        background-color: var(--color-white);
+        border: var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
         transition: var(--transition);
-        animation: slide-in 0.5s var(--transition-curve) forwards;
+        overflow: hidden;
+        animation: slide-in var(--transition-speed) var(--transition-curve)
+          forwards;
       }
+      /* .notification:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: var(--space-2);
+        background-color: var(--color-green-400);
+      } */
       .close {
-        padding: 0.5em;
+        flex: 0 0 var(--space-8);
+        font-size: var(--text-lg);
+        height: var(--space-8);
+        border-radius: var(--round);
+        border: 0;
+        align-self: flex-start;
         margin-left: auto;
+        cursor: pointer;
+        background-color: var(--color-gray-100);
+      }
+      .close:hover {
+        background-color: var(--color-gray-200);
       }
       .add {
-        padding: 1em;
+        padding: var(--space-2);
       }
       .animate-out {
-        animation: fade-out 0.5s var(--transition-curve);
+        animation: fade-out var(--transition-speed) var(--transition-curve);
       }
       @keyframes fade-out {
         to {
           opacity: 0;
-          transform: translateX(300px);
+          transform: translateX(var(--notification-size));
         }
       }
       @keyframes slide-in {
         from {
-          transform: translateX(300px);
+          transform: translateX(var(--notification-size));
         }
         to {
           transform: translateX(0);
@@ -54,10 +82,16 @@
       <button class="add">Add +</button>
     </div>
 
-    <!-- Idea: transform for sideways animations and top for vertical movement (and animation) -->
-
     <!-- Your JavaScript here -->
     <script>
+      const notificationTexts = [
+        'Hey, something weird happened!',
+        "Congratulations, you've found the meaning of life, which by the way is being present.",
+        "Looking super today! What's that shirt?",
+        "Isn't that super Cool!",
+        "How are you doing? Dismiss this message to tell me that you've seen it.",
+      ];
+
       const addButton = document.querySelector('.add');
       const notificationPosition = document.body.querySelector('div');
       const margin = 16;
@@ -67,13 +101,15 @@
         const notification = document.createElement('div');
         // Add class "notification"
         notification.classList.add('notification');
-        // Create random content for notification
-        const randomContent = 'lorem ipsum '.repeat(
-          Math.floor(Math.random() * 12 + 1)
-        );
+        // Pick random content for notification
+        const randomMessage =
+          notificationTexts[
+            Math.floor(Math.random() * notificationTexts.length)
+          ];
         // Insert random content and close button
         notification.innerHTML = `
-          ${randomContent} <button class="close">x</button>
+          <p>${randomMessage}</p>
+          <button class="close" aria-label="Dismiss notification">×</button>
         `;
         // Get close button within notification
         const closeButton = notification.querySelector('.close');
@@ -99,28 +135,42 @@
       };
 
       const removeNotification = (event) => {
+        // Get clicked close button
         const closeButton = event.currentTarget;
+        // Get the notification
         const notification = closeButton.parentNode;
+        // Get the height of the clicked notification
         const currentHeight = notification.offsetHeight;
+        // Define rest of the notifications
         let restNotifications = [];
         let next = notification.nextElementSibling;
+        // Loop always the next notification until none is found
         while (next) {
+          // If the next element doesn't have 'notification' class, break the while loop
+          if (!next.matches('.notification')) {
+            break;
+          }
+          // Add the notification to the array
           restNotifications.push(next);
+          // Set the next to be the next element
           next = next.nextElementSibling;
         }
-        console.log(restNotifications);
+        // Se the new height for each of the notifications below the removed one
         restNotifications.forEach((item) => {
           item.style.top = `${
             parseInt(item.style.top) - currentHeight - margin
           }px`;
         });
+        // Animate removed notification
         notification.classList.add('animate-out');
+        // Remove notification once animation has ended
         notification.addEventListener('animationend', () => {
           notification.parentNode.removeChild(notification);
         });
       };
 
       addButton.addEventListener('click', addNotification);
+      addNotification();
     </script>
   </body>
 </html>
