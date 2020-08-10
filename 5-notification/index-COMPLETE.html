@@ -21,10 +21,19 @@
         background-color: var(--color-white);
         border: var(--border);
         border-radius: var(--radius);
-        box-shadow: var(--shadow);
+        box-shadow: var(--shadow-large);
         transition: var(--transition);
         overflow: hidden;
         animation: slide-in var(--transition-speed) var(--transition-curve);
+      }
+      .title {
+        font-size: var(--text-md);
+        margin-bottom: var(--space-1);
+        font-weight: bold;
+        color: var(--color-gray-800);
+      }
+      .description {
+        color: var(--color-gray-600);
       }
       /* .notification:before {
         content: '';
@@ -37,17 +46,17 @@
       } */
       .close {
         flex: 0 0 var(--space-8);
-        font-size: var(--text-lg);
+        font-size: var(--text-xl);
         height: var(--space-8);
         border-radius: var(--round);
         border: 0;
-        align-self: flex-start;
         margin-left: auto;
         cursor: pointer;
-        background-color: var(--color-gray-100);
+        background-color: transparent;
+        color: var(--color-gray-400);
       }
       .close:hover {
-        background-color: var(--color-gray-200);
+        background-color: var(--color-gray-100);
       }
       .close:focus,
       .close:active {
@@ -107,7 +116,10 @@
           ];
         // Insert random content and close button
         notification.innerHTML = `
-          <p>${randomMessage}</p>
+          <div class="content">
+            <h4 class="title">New message!</h4>
+            <p class="description">${randomMessage}</p>
+          </div>
           <button class="close" aria-label="Dismiss notification">×</button>
         `;
         // Get close button within notification
