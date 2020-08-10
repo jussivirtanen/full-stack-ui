@@ -151,11 +151,13 @@
     </div>
     <!-- Your JavaScript here -->
     <script>
+      // Selectors
       const chatContainer = document.querySelector('.chat');
       const chatField = document.querySelector('.field');
       const sendButton = document.querySelector('.send');
       const chatWindow = document.querySelector('.window');
       const chatToggle = document.querySelector('.toggle');
+      const keyword = 'coffee';
       let menuOpen = false;
 
       const originalWidth = chatToggle.offsetWidth;
@@ -164,6 +166,9 @@
       const addMsg = () => {
         if (chatField.value.length > 0 && chatField.value.trim()) {
           createBubble(chatWindow, chatField.value, 'own');
+          if (chatField.value.includes(keyword)) {
+            addResponse();
+          }
           chatField.value = '';
           sendButton.classList.remove('active');
           chatField.focus();
@@ -244,13 +249,11 @@
         }
       });
 
-      // const addRandomMsg = () => {
-      //   setInterval(() => {
-      //     createBubble(chatWindow, "I'm still here dude!", '');
-      //   }, 1000);
-      // };
-
-      // addRandomMsg();
+      const addResponse = () => {
+        setTimeout(() => {
+          createBubble(chatWindow, 'Coffee sounds great!', '');
+        }, 1000);
+      };
     </script>
   </body>
 </html>
