@@ -143,6 +143,8 @@
           if (newNumber === minValue) {
             decrement.disabled = true;
             numberContainer.classList.add('dim');
+            // Make sure the button won't get stuck in active state (Safari)
+            element.blur();
           } else if (newNumber > minValue && newNumber < maxValue) {
             decrement.disabled = false;
             increment.disabled = false;
@@ -150,6 +152,7 @@
           } else if (newNumber === maxValue) {
             increment.disabled = true;
             numberContainer.textContent = `${newNumber}+`;
+            element.blur();
           }
         });
       });
