@@ -114,8 +114,7 @@ body {
   --shadow: 0px 2px 8px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.05);
   --shadow-large: 0px 5px 18px rgba(0, 0, 0, 0.1),
     0px 1px 3px rgba(0, 0, 0, 0.05);
-  --shadow-focus: 0 0 0 var(--space-1) var(--color-white),
-    0 0 0 var(--space-2) var(--color-blue-200);
+  --shadow-focus: 0 0 0 var(--space-1) var(--color-blue-200);
 
   /* Transition curves */
   --transition-curve: cubic-bezier(0.2, 0.7, 0.3, 1);
