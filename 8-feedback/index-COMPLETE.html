@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../base.css" />
+    <title>Feedback</title>
+    <style>
+      /* Your styles here */
+      :root {
+        --container-width: 350px;
+      }
+      .container {
+        padding: var(--space-6);
+        width: var(--container-width);
+        border: var(--border);
+        box-shadow: var(--shadow);
+        border-radius: var(--radius);
+        background-color: var(--color-white);
+      }
+      .title {
+        font-size: var(--text-md);
+        margin-bottom: var(--space-4);
+        color: var(--color-gray-700);
+        text-align: center;
+        font-weight: bold;
+      }
+      .buttons {
+        display: grid;
+        grid-auto-flow: column;
+        gap: var(--space-4);
+      }
+      .button {
+        font-size: var(--text-xl);
+        height: var(--space-12);
+        border: var(--border);
+        border-radius: var(--radius);
+        background-color: var(--color-white);
+        cursor: pointer;
+        outline: none;
+        user-select: none;
+        box-shadow: var(--shadow);
+        transition: box-shadow var(--transition-speed) var(--transition-curve);
+        filter: grayscale(1) brightness(105%);
+      }
+      .button.selected {
+        z-index: 2;
+        background-color: var(--color-blue-200);
+        filter: none;
+        box-shadow: none;
+        border-color: var(--color-blue-500);
+      }
+      .emoji {
+        display: block;
+        transition: var(--transition-bounce);
+        /* Allows quicker subsequent clicks on adjecent buttons */
+        pointer-events: none;
+      }
+      .emoji.emphasize {
+        transform: scale(3);
+      }
+      .button:hover {
+        border-color: var(--color-gray-300);
+        filter: grayscale(0);
+      }
+      .button:focus {
+        box-shadow: var(--shadow-focus);
+        filter: grayscale(0);
+      }
+      .button:active {
+        border-color: var(--color-blue-500);
+        box-shadow: inset var(--shadow), var(--shadow-focus);
+      }
+      .feedback {
+        visibility: hidden;
+        height: 0;
+        pointer-events: none;
+        opacity: 0;
+        transition: var(--transition);
+        /* transition: all 1s ease-out; */
+      }
+      .feedback.visible {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: all;
+        /* margin-top: var(--space-4); */
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <!-- Your HTML here -->
+      <div class="container">
+        <h2 class="title">How was your day?</h2>
+        <div class="buttons">
+          <button class="button" value="negative">
+            <span class="emoji">😩</span>
+          </button>
+          <button class="button" value="negative">
+            <span class="emoji">😕</span>
+          </button>
+          <button class="button" value="positive">
+            <span class="emoji">🙂</span>
+          </button>
+          <button class="button" value="positive">
+            <span class="emoji">😍</span>
+          </button>
+        </div>
+        <div class="feedback">
+          <p>
+            Oh no! We probably could've done something better. Could you shortly
+            tell us what went wrong and we'll try to make it up for you?
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- Your JavaScript here -->
+    <script>
+      const buttons = document.querySelectorAll('.button');
+      const title = document.querySelector('.title');
+      const feedback = document.querySelector('.feedback');
+
+      const giveRating = (event) => {
+        const element = event.currentTarget;
+        const value = element.value;
+        const emoji = element.querySelector('.emoji');
+        if (element.classList.contains('selected')) {
+          return;
+        }
+        buttons.forEach((button) => button.classList.remove('selected'));
+        element.classList.add('selected');
+        emoji.classList.add('emphasize');
+        showFeedback(value);
+        emoji.addEventListener('transitionend', () => {
+          emoji.classList.remove('emphasize');
+          element.blur();
+        });
+      };
+
+      const showFeedback = (value) => {
+        // feedback.innerHTML = '';
+        if (value === 'positive') {
+          feedback.innerHTML = `
+            <p>That's great!</p>
+          `;
+        } else {
+          feedback.innerHTML = `
+            <p>Oh no! We probably could've done something better. Could you shortly tell us what went wrong and we'll try to make it up for you?</p>
+          `;
+        }
+        feedback.classList.remove('visible');
+        feedback.style.height = `${feedback.scrollHeight}px`;
+        feedback.style.marginTop = getComputedStyle(title).marginBottom;
+        // debugger;
+        feedback.addEventListener('transitionend', () => {
+          feedback.classList.add('visible');
+        });
+      };
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', giveRating);
+      });
+    </script>
+  </body>
+</html>
