@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../base.css" />
-    <title>Feedback</title>
+    <title>Feedback component</title>
     <style>
       /* Your styles here */
       :root {
@@ -14,7 +14,7 @@
         padding: var(--space-6);
         width: var(--container-width);
         border: var(--border);
-        box-shadow: var(--shadow);
+        box-shadow: var(--shadow-large);
         border-radius: var(--radius);
         background-color: var(--color-white);
       }
@@ -72,18 +72,47 @@
         box-shadow: inset var(--shadow), var(--shadow-focus);
       }
       .feedback {
-        visibility: hidden;
+        transition: all 1s ease-out;
+        transition: var(--transition-bounce);
         height: 0;
+      }
+      .content {
+        visibility: hidden;
         pointer-events: none;
         opacity: 0;
-        transition: var(--transition);
-        /* transition: all 1s ease-out; */
       }
-      .feedback.visible {
+      .content.visible {
         visibility: visible;
         opacity: 1;
         pointer-events: all;
-        /* margin-top: var(--space-4); */
+        transition: var(--transition);
+      }
+      .field {
+        /* As the default is inline-block, there's unwanted margin below the field */
+        display: block;
+        width: 100%;
+        font-family: sans-serif;
+        font-size: var(--text-md);
+        padding: var(--space-2);
+        margin-top: var(--space-4);
+        border-radius: var(--radius);
+        border: var(--border);
+        /* For iOS Safari */
+        -webkit-appearance: none;
+      }
+      .submit {
+        font-weight: bold;
+        font-size: var(--text-md);
+        background-color: var(--color-blue-500);
+        color: var(--color-white);
+        padding: var(--space-3) var(--space-5);
+        margin-top: var(--space-4);
+        border-radius: var(--radius);
+        border: none;
+        cursor: pointer;
+      }
+      .submit:hover {
+        background-color: var(--color-blue-400);
       }
     </style>
   </head>
@@ -107,56 +136,79 @@
           </button>
         </div>
         <div class="feedback">
-          <p>
-            Oh no! We probably could've done something better. Could you shortly
-            tell us what went wrong and we'll try to make it up for you?
-          </p>
+          <div class="content"></div>
         </div>
       </div>
     </div>
     <!-- Your JavaScript here -->
     <script>
+      // Get elements
       const buttons = document.querySelectorAll('.button');
       const title = document.querySelector('.title');
       const feedback = document.querySelector('.feedback');
+      const content = feedback.querySelector('.content');
 
       const giveRating = (event) => {
+        // Button that was clicked
         const element = event.currentTarget;
+        // Current value (negative or positive)
         const value = element.value;
+        // Emoji of the button that was clicked
         const emoji = element.querySelector('.emoji');
+        // If the current button is already pressed, return early
         if (element.classList.contains('selected')) {
           return;
         }
+        // Remove selected statuses (class ".selected")
         buttons.forEach((button) => button.classList.remove('selected'));
+        // Add selected class to the button that was clicked
         element.classList.add('selected');
+        // Animate emoji within the button
         emoji.classList.add('emphasize');
+        // Show proper feedback based on button value
         showFeedback(value);
         emoji.addEventListener('transitionend', () => {
+          // Remove emphasis animation
           emoji.classList.remove('emphasize');
+          // Defocus button
           element.blur();
         });
       };
 
-      const showFeedback = (value) => {
-        // feedback.innerHTML = '';
+      const createContent = (value) => {
         if (value === 'positive') {
-          feedback.innerHTML = `
-            <p>That's great!</p>
+          content.innerHTML = `
+          <p>That's great to hear, keep on rocking! 🙏🏻</p>
           `;
         } else {
-          feedback.innerHTML = `
-            <p>Oh no! We probably could've done something better. Could you shortly tell us what went wrong and we'll try to make it up for you?</p>
+          content.innerHTML = `
+          <p>Oh no! We probably could've done something better. Could you shortly tell us what went wrong and we'll try to make it up for you?</p>
+          <textarea rows="4" class="field" placeholder="What happened?"></textarea>
+          <button class="submit">Submit</button>
           `;
         }
-        feedback.classList.remove('visible');
-        feedback.style.height = `${feedback.scrollHeight}px`;
+      };
+
+      const showFeedback = (value) => {
+        createContent(value);
+        if (content.dataset.value === value) {
+          return;
+        } else {
+          content.dataset.value = value;
+        }
+        // Hide content while transitioning
+        content.classList.remove('visible');
+        // Set feedback container height to be the same as the height of the current content
+        feedback.style.height = `${content.scrollHeight}px`;
+        // Grab top margin from title and add it to feedback container
         feedback.style.marginTop = getComputedStyle(title).marginBottom;
-        // debugger;
         feedback.addEventListener('transitionend', () => {
-          feedback.classList.add('visible');
+          // Show content after transition has ended
+          content.classList.add('visible');
         });
       };
 
+      // Listen for buttons
       buttons.forEach((button) => {
         button.addEventListener('click', giveRating);
       });
