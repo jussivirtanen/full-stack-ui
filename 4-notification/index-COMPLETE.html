@@ -14,17 +14,17 @@
       .notification {
         position: fixed;
         display: flex;
-        align-items: center;
         width: var(--notification-size);
         right: var(--space-4);
-        padding: var(--space-4);
         border: var(--border);
-        overflow: hidden;
         background-color: var(--color-white);
         border-radius: var(--radius);
         box-shadow: var(--shadow-large);
         transition: var(--transition);
         animation: slide-in var(--transition-speed) var(--transition-curve);
+      }
+      .content {
+        padding: var(--space-4);
       }
       .title {
         font-size: var(--text-md);
@@ -36,18 +36,21 @@
         color: var(--color-gray-600);
       }
       .close {
-        flex: 0 0 var(--space-8);
-        font-size: var(--text-xl);
-        height: var(--space-8);
-        border: 0;
+        font-size: var(--text-sm);
         margin-left: auto;
-        border-radius: var(--round);
+        padding: 0 var(--space-4);
+        border: 0;
+        border-left: var(--border);
         background-color: transparent;
+        border-radius: 0 var(--radius) var(--radius) 0;
         color: var(--color-gray-400);
         cursor: pointer;
       }
       .close:hover {
         background-color: var(--color-gray-100);
+      }
+      .close:active {
+        color: var(--color-gray-700);
       }
       .close:focus,
       .close:active {
@@ -55,7 +58,23 @@
         box-shadow: var(--shadow-focus);
       }
       .add {
-        padding: var(--space-2);
+        padding: var(--space-3) var(--space-5);
+        border: 0;
+        font-weight: bold;
+        background-color: var(--color-blue-500);
+        color: var(--color-white);
+        border-radius: var(--round);
+        cursor: pointer;
+        outline: none;
+      }
+      .add:hover {
+        background-color: var(--color-blue-400);
+      }
+      .add:focus {
+        box-shadow: var(--shadow-focus);
+      }
+      .add:active {
+        background-color: var(--color-blue-500);
       }
       .animate-out {
         animation: fade-out var(--transition-speed) var(--transition-curve);
@@ -113,7 +132,7 @@
             <h4 class="title">New message!</h4>
             <p class="description">${randomMessage}</p>
           </div>
-          <button class="close" aria-label="Dismiss notification">×</button>
+          <button class="close" aria-label="Dismiss notification">Close</button>
         `;
         // Get close button within notification
         const closeButton = notification.querySelector('.close');
