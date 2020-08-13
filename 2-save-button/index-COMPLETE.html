@@ -10,32 +10,33 @@
         position: relative;
         display: flex;
         align-items: center;
-        padding: var(--space-3) var(--space-5);
-        background-color: var(--color-blue-500);
-        color: white;
-        border: 0;
-        border-radius: var(--radius);
-        font-weight: bold;
         font-size: var(--text-lg);
+        padding: var(--space-3) var(--space-5);
+        border: 0;
+        font-weight: bold;
+        background-color: var(--color-blue-500);
+        color: var(--color-white);
+        border-radius: var(--radius);
         cursor: pointer;
         outline: none;
       }
       button.active {
-        opacity: 0.5;
+        opacity: var(--opacity-50);
         cursor: not-allowed;
       }
       button:focus {
-        box-shadow: 0 0 0 var(--space-1) var(--color-blue-200);
+        box-shadow: var(--shadow-focus);
       }
       button.active .text {
         margin-right: var(--space-8);
       }
       button.active .loader {
-        animation: spin 0.3s linear infinite;
-        opacity: 1;
+        animation: spin var(--transition-speed) linear infinite;
+        opacity: var(--opacity-100);
       }
       .text {
-        transition: margin-right 0.2s var(--transition-curve-bounce);
+        transition: margin-right var(--transition-speed)
+          var(--transition-curve-bounce);
         margin-right: 0;
       }
       .loader {

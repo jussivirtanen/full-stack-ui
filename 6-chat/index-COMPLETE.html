@@ -7,19 +7,22 @@
     <title>Chat</title>
     <style>
       /* Chat */
+      :root {
+        --chat-width: 250px;
+      }
       .chat {
         position: fixed;
         right: var(--space-4);
         bottom: var(--space-12);
-        width: 250px;
+        width: var(--chat-width);
+        border: var(--border);
         border-radius: var(--radius);
         opacity: 0;
+        overflow: hidden;
         transform: translateY(var(--space-8)) scale(0.9);
         transform-origin: right;
         pointer-events: none;
-        transition: all 0.2s var(--transition-curve);
-        overflow: hidden;
-        border: var(--border);
+        transition: var(--transition);
         background-color: var(--color-white);
       }
       .chat.visible {
@@ -30,7 +33,7 @@
       .window {
         display: flex;
         flex-direction: column;
-        height: 250px;
+        height: var(--chat-width);
         padding: var(--space-3);
         overflow-y: scroll;
         background-color: var(--color-white);
@@ -101,7 +104,7 @@
         user-select: none;
         background-color: var(--color-white);
         color: var(--color-gray-900);
-        transition: min-width 0.2s var(--transition-curve);
+        transition: min-width var(--transition-speed) var(--transition-curve);
       }
       .toggle:hover,
       .toggle:focus {
@@ -160,17 +163,26 @@
       const keyword = 'coffee';
       let menuOpen = false;
 
+      // Get chat toggle width
       const originalWidth = chatToggle.offsetWidth;
+      // Set that width to be the minimum width of the toggle
       chatToggle.style.minWidth = `${originalWidth}px`;
 
       const addMsg = () => {
+        // Check if field has content (and not only spaces)
         if (chatField.value.length > 0 && chatField.value.trim()) {
+          // Create a new chat bubble from the user (hence "own")
           createBubble(chatWindow, chatField.value, 'own');
+          // Check if message has certain keyword...
           if (chatField.value.includes(keyword)) {
+            // ...and respond to it.
             addResponse();
           }
+          // Reset text field value
           chatField.value = '';
+          // Disable send button
           sendButton.classList.remove('active');
+          // Focus text field again
           chatField.focus();
         }
       };
@@ -178,49 +190,68 @@
       const createBubble = (destination, message, owner = 'own') => {
         const chatBubble = document.createElement('div');
         chatBubble.className = 'bubble';
+        // Add separate classes for own and friend's messages
         if (owner == 'own') {
           chatBubble.classList.add('own');
         } else {
           chatBubble.classList.add('guest');
         }
+        // Insert message within bubble (note SECURITY)
         chatBubble.innerText = message;
+        // Append child to destination
         destination.appendChild(chatBubble);
+        // Scroll to the bottom of the destination container (chat window)
         destination.scrollTop = destination.scrollHeight;
       };
 
-      const resizeToggle = () => {
+      const resizeToggle = (sourceWidth) => {
+        // If menu is not open, set the width of the toggle equal to the chat window
         if (!menuOpen) {
-          chatToggle.style.minWidth = `${chatWidth}px`;
+          chatToggle.style.minWidth = `${sourceWidth}px`;
         } else {
           chatToggle.style.minWidth = `${originalWidth}px`;
         }
       };
 
       const toggleChat = (event) => {
+        // Get chat window width
         chatWidth = chatContainer.offsetWidth;
-        resizeToggle();
+        // Resize chat toggle
+        resizeToggle(chatWidth);
+        // Show chat
         chatContainer.classList.toggle('visible');
+        // Expand toggle
         event.currentTarget.classList.toggle('open');
+        // Tell screen readers that the content is not hidden anymore
         chatContainer.setAttribute('aria-hidden', false);
+        // Toggle menu open variable
         menuOpen = !menuOpen;
+        // Prevent event from bubbling
         event.stopPropagation();
+        // Focus on the text field
         chatField.focus();
       };
 
       const closeChat = () => {
+        // Close chat
         chatContainer.classList.remove('visible');
+        // Let screenreaders know that content is hidden
         chatContainer.setAttribute('aria-hidden', true);
+        // Reset toggle to close state
         chatToggle.classList.remove('open');
         resizeToggle();
         menuOpen = false;
+        // Take focus out of chat text field...
         chatField.blur();
+        // ...and focus on the toggle instead
         chatToggle.focus();
       };
 
+      // Add event listeners to chat toggle and send button
+      chatToggle.addEventListener('click', toggleChat);
       sendButton.addEventListener('click', addMsg);
 
-      chatToggle.addEventListener('click', toggleChat);
-
+      // Add keyboard event listeners
       window.addEventListener('keydown', function (e) {
         if (e.key == 'Enter') {
           addMsg();
@@ -233,6 +264,7 @@
         }
       });
 
+      // Detect click outside the chat container to close chat
       window.addEventListener('click', (e) => {
         console.log('container:', chatContainer);
         console.log('event target:', e.target);
@@ -241,6 +273,7 @@
         }
       });
 
+      // Toggle send button state based on chatfield content
       chatField.addEventListener('input', () => {
         if (chatField.value.length > 0 && chatField.value.trim()) {
           sendButton.classList.add('active');
@@ -249,6 +282,7 @@
         }
       });
 
+      // Add response to a message
       const addResponse = () => {
         setTimeout(() => {
           createBubble(chatWindow, 'Coffee sounds great!', '');

@@ -6,22 +6,26 @@
     <link rel="stylesheet" href="../base.css" />
     <title>Plus minus buttons</title>
     <style>
+      :root {
+        --width-container: 600px;
+      }
       .container {
+        width: var(--width-container);
+        max-width: 100%;
+        margin: 0 auto;
         padding: 0 var(--space-8);
         border: var(--border);
         background-color: var(--color-white);
         border-radius: var(--radius);
         box-shadow: var(--shadow);
-        width: 600px;
-        max-width: 100%;
-        margin: 0 auto;
       }
       .input-row {
         display: flex;
         padding: var(--space-8) 0;
-      }
-      .input-row:first-child {
         border-bottom: var(--border);
+      }
+      .input-row:last-child {
+        border-bottom: 0;
       }
       .title {
         margin-right: var(--space-8);
@@ -54,8 +58,7 @@
       }
       button:focus {
         outline: none;
-        box-shadow: 0 0 0 var(--space-1) var(--color-white),
-          0 0 0 var(--space-2) var(--color-blue-200);
+        box-shadow: var(--shadow-focus);
       }
       button[disabled] {
         opacity: var(--opacity-50);
@@ -63,10 +66,6 @@
       }
       button:active {
         background-color: var(--color-blue-300);
-      }
-      /* For Firefox */
-      ::-moz-focus-inner {
-        border: 0;
       }
 
       .number {

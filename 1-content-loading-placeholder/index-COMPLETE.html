@@ -6,8 +6,11 @@
     <link rel="stylesheet" href="../base.css" />
     <title>Content loading placeholder</title>
     <style>
+      :root {
+        --loader-width: 300px;
+      }
       .loader {
-        width: 300px;
+        width: var(--loader-width);
         padding: var(--space-4);
         border: var(--border);
         margin-bottom: var(--space-4);
@@ -17,7 +20,7 @@
       }
       .bar {
         position: relative;
-        width: 100%;
+        width: 80%;
         height: var(--space-2);
         margin-bottom: var(--space-2);
         overflow: hidden;
@@ -32,10 +35,10 @@
         display: block;
         position: absolute;
         height: 100%;
-        width: 100px;
+        width: var(--space-24);
         top: 0;
-        left: -100px;
-        animation: load 0.7s ease-out infinite;
+        animation: load var(--transition-speed-slow) var(--transition-curve)
+          infinite;
         background-image: linear-gradient(
           to right,
           rgba(255, 255, 255, 0) 0%,
@@ -75,7 +78,7 @@
     <script>
       // Get all bars by their class "bar"
       const bars = document.querySelectorAll('.bar');
-      // Define boundaries for bar width
+      // Define boundaries for bar width (percentage)
       const min = 40;
       const max = 100;
 

@@ -72,9 +72,8 @@
         box-shadow: inset var(--shadow), var(--shadow-focus);
       }
       .feedback {
-        transition: all 1s ease-out;
-        transition: var(--transition-bounce);
         height: 0;
+        transition: var(--transition-bounce);
       }
       .content {
         visibility: hidden;
@@ -91,7 +90,6 @@
         /* As the default is inline-block, there's unwanted margin below the field */
         display: block;
         width: 100%;
-        font-family: sans-serif;
         font-size: var(--text-md);
         padding: var(--space-2);
         margin-top: var(--space-4);
@@ -101,14 +99,14 @@
         -webkit-appearance: none;
       }
       .submit {
-        font-weight: bold;
         font-size: var(--text-md);
-        background-color: var(--color-blue-500);
-        color: var(--color-white);
         padding: var(--space-3) var(--space-5);
         margin-top: var(--space-4);
-        border-radius: var(--radius);
         border: none;
+        font-weight: bold;
+        border-radius: var(--radius);
+        background-color: var(--color-blue-500);
+        color: var(--color-white);
         cursor: pointer;
       }
       .submit:hover {

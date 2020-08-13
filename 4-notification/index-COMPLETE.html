@@ -15,15 +15,15 @@
         position: fixed;
         display: flex;
         align-items: center;
+        width: var(--notification-size);
         right: var(--space-4);
         padding: var(--space-4);
-        width: var(--notification-size);
-        background-color: var(--color-white);
         border: var(--border);
+        overflow: hidden;
+        background-color: var(--color-white);
         border-radius: var(--radius);
         box-shadow: var(--shadow-large);
         transition: var(--transition);
-        overflow: hidden;
         animation: slide-in var(--transition-speed) var(--transition-curve);
       }
       .title {
@@ -35,25 +35,16 @@
       .description {
         color: var(--color-gray-600);
       }
-      /* .notification:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: var(--space-2);
-        background-color: var(--color-green-400);
-      } */
       .close {
         flex: 0 0 var(--space-8);
         font-size: var(--text-xl);
         height: var(--space-8);
-        border-radius: var(--round);
         border: 0;
         margin-left: auto;
-        cursor: pointer;
+        border-radius: var(--round);
         background-color: transparent;
         color: var(--color-gray-400);
+        cursor: pointer;
       }
       .close:hover {
         background-color: var(--color-gray-100);
