@@ -122,6 +122,7 @@ body {
 
   /* Transition speeds */
   --transition-speed: 0.25s;
+  --transition-speed-slow: 1s;
 
   /* Transition */
   --transition: all var(--transition-speed) var(--transition-curve);
