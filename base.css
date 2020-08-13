@@ -124,6 +124,8 @@ body {
 
   /* Transition */
   --transition: all var(--transition-speed) var(--transition-curve);
+  --transition-bounce: all var(--transition-speed)
+    var(--transition-curve-bounce);
 
   /* Opacities */
   --opacity-25: 0.25;
