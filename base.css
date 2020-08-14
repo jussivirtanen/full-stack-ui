@@ -23,7 +23,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: var(--space-8);
+  padding: var(--space-4);
   /* Global styles */
   background-color: var(--color-blue-100);
 }
