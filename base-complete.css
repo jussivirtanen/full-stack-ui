@@ -1,4 +1,15 @@
-/* Basic reset */
+/*
+  What we'll need:
+  - Basic reset
+  - Colors
+  - Spacings
+  - Font sizes
+  - Radii
+  - Borders
+  - Shadows
+  - Transitions
+  - Opacities
+*/
 
 * {
   margin: 0;
@@ -27,19 +38,6 @@ body {
   /* Global styles */
   background-color: var(--color-blue-100);
 }
-
-/* Design system with CSS custom properties */
-
-/*
-  - Colors
-  - Spacings
-  - Font sizes
-  - Radii
-  - Borders
-  - Shadows
-  - Utilities
-  (- Transitions)
-*/
 
 :root {
   /* Blues */
