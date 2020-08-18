@@ -15,7 +15,6 @@ The course consists of six (6) individual video lessons teaching you how to buil
 
 To keep everything consistent, we build a small design system as we go. The system consists of:
 
-- Basic reset
 - Colors (To build color palettes we use a tool called [Scale](https://hihayk.github.io/scale/) by [Hayk](https://github.com/hihayk/).)
 - Spacings
 - Font sizes
