@@ -20,12 +20,12 @@
         cursor: pointer;
         outline: none;
       }
+      button:focus {
+        box-shadow: var(--shadow-focus);
+      }
       button.active {
         opacity: var(--opacity-50);
         cursor: not-allowed;
-      }
-      button:focus {
-        box-shadow: var(--shadow-focus);
       }
       button.active .text {
         margin-right: var(--space-8);
