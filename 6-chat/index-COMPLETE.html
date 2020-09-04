@@ -176,11 +176,6 @@
         if (chatField.value.length > 0 && chatField.value.trim()) {
           // Create a new chat bubble from the user (hence "own")
           createBubble(chatWindow, chatField.value, 'own');
-          // Check if message has certain keyword...
-          if (chatField.value.includes(keyword)) {
-            // ...and respond to it.
-            addResponse();
-          }
           // Reset text field value
           chatField.value = '';
           // Disable send button
@@ -205,6 +200,11 @@
         destination.appendChild(chatBubble);
         // Scroll to the bottom of the destination container (chat window)
         destination.scrollTop = destination.scrollHeight;
+        // Check if message has certain keyword...
+        if (message.includes(keyword)) {
+          // ...and respond to it.
+          addResponse();
+        }
       };
 
       const resizeToggle = (sourceWidth) => {
