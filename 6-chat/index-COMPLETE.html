@@ -223,8 +223,6 @@
         resizeToggle(chatWidth);
         // Show chat
         chatContainer.classList.toggle('visible');
-        // Expand toggle
-        element.classList.toggle('open');
         // Tell screen readers that the content is not hidden anymore
         chatContainer.setAttribute('aria-hidden', false);
         // Toggle menu open variable
@@ -240,8 +238,6 @@
         chatContainer.classList.remove('visible');
         // Let screenreaders know that content is hidden
         chatContainer.setAttribute('aria-hidden', true);
-        // Reset toggle to close state
-        chatToggle.classList.remove('open');
         resizeToggle();
         chatOpen = false;
         // Take focus out of chat text field...
