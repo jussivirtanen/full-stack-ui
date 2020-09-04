@@ -160,13 +160,59 @@
       const sendButton = document.querySelector('.send');
       const chatWindow = document.querySelector('.window');
       const chatToggle = document.querySelector('.toggle');
+
       const keyword = 'coffee';
       let chatOpen = false;
 
       // Get chat toggle width
       const originalWidth = chatToggle.offsetWidth;
-      // Set that width to be the minimum width of the toggle
+
+      // Get chat container width
+      const chatWidth = chatContainer.offsetWidth;
+
+      // Set toggle width to be the minimum width of the toggle (for animation)
       chatToggle.style.minWidth = `${originalWidth}px`;
+
+      const toggleChat = (event) => {
+        // Get clicked button
+        const element = event.currentTarget;
+        // Show chat
+        chatContainer.classList.toggle('visible');
+        // Tell screen readers that the content is not hidden anymore
+        chatContainer.setAttribute('aria-hidden', false);
+        // Focus on the text field
+        chatField.focus();
+        // Resize chat toggle
+        resizeToggle(chatWidth);
+        // Toggle menu open variable
+        chatOpen = !chatOpen;
+        // Prevent event from bubbling
+        event.stopPropagation();
+      };
+
+      const closeChat = () => {
+        // Close chat
+        chatContainer.classList.remove('visible');
+        // Let screenreaders know that content is hidden
+        chatContainer.setAttribute('aria-hidden', true);
+        // Resize toggle
+        resizeToggle();
+        // Set boolean to false
+        chatOpen = false;
+        // Take focus out of chat text field...
+        chatField.blur();
+        // ...and focus on the toggle instead
+        chatToggle.focus();
+      };
+
+      const resizeToggle = (targetWidth) => {
+        // If menu is not open, set the width of the toggle equal to the chat window
+        if (!chatOpen) {
+          chatToggle.style.minWidth = `${targetWidth}px`;
+        } else {
+          chatToggle.style.minWidth = `${originalWidth}px`;
+        }
+      };
 
       const addMsg = () => {
         // Check if field has content (and not only spaces)
@@ -204,49 +250,6 @@
         }
       };
 
-      const resizeToggle = (targetWidth) => {
-        // If menu is not open, set the width of the toggle equal to the chat window
-        if (!chatOpen) {
-          chatToggle.style.minWidth = `${targetWidth}px`;
-        } else {
-          chatToggle.style.minWidth = `${originalWidth}px`;
-        }
-      };
-
-      const toggleChat = (event) => {
-        // Get clicked button
-        const element = event.currentTarget;
-        // Get chat window width
-        chatWidth = chatContainer.offsetWidth;
-        // Resize chat toggle
-        resizeToggle(chatWidth);
-        // Show chat
-        chatContainer.classList.toggle('visible');
-        // Tell screen readers that the content is not hidden anymore
-        chatContainer.setAttribute('aria-hidden', false);
-        // Toggle menu open variable
-        chatOpen = !chatOpen;
-        // Prevent event from bubbling
-        event.stopPropagation();
-        // Focus on the text field
-        chatField.focus();
-      };
-
-      const closeChat = () => {
-        // Close chat
-        chatContainer.classList.remove('visible');
-        // Let screenreaders know that content is hidden
-        chatContainer.setAttribute('aria-hidden', true);
-        // Resize toggle
-        resizeToggle();
-        // Set boolean to false
-        chatOpen = false;
-        // Take focus out of chat text field...
-        chatField.blur();
-        // ...and focus on the toggle instead
-        chatToggle.focus();
-      };
-
       // Add response to a message
       const addResponse = () => {
         setTimeout(() => {
@@ -258,13 +261,14 @@
       chatToggle.addEventListener('click', toggleChat);
       sendButton.addEventListener('click', addMsg);
 
-      // Add keyboard event listeners
+      // Send message when hitting Enter
       window.addEventListener('keydown', function (e) {
         if (e.key == 'Enter') {
           addMsg();
         }
       });
 
+      // Close chat when hitting Escape
       window.addEventListener('keydown', (e) => {
         if (e.key == 'Escape' && chatOpen) {
           closeChat();
