@@ -217,6 +217,8 @@
       };
 
       const toggleChat = (event) => {
+        // Get clicked button
+        const element = event.currentTarget;
         // Get chat window width
         chatWidth = chatContainer.offsetWidth;
         // Resize chat toggle
@@ -224,7 +226,7 @@
         // Show chat
         chatContainer.classList.toggle('visible');
         // Expand toggle
-        event.currentTarget.classList.toggle('open');
+        element.classList.toggle('open');
         // Tell screen readers that the content is not hidden anymore
         chatContainer.setAttribute('aria-hidden', false);
         // Toggle menu open variable
