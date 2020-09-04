@@ -164,7 +164,7 @@
       const chatWindow = document.querySelector('.window');
       const chatToggle = document.querySelector('.toggle');
       const keyword = 'coffee';
-      let menuOpen = false;
+      let chatOpen = false;
 
       // Get chat toggle width
       const originalWidth = chatToggle.offsetWidth;
@@ -209,7 +209,7 @@
 
       const resizeToggle = (sourceWidth) => {
         // If menu is not open, set the width of the toggle equal to the chat window
-        if (!menuOpen) {
+        if (!chatOpen) {
           chatToggle.style.minWidth = `${sourceWidth}px`;
         } else {
           chatToggle.style.minWidth = `${originalWidth}px`;
@@ -230,7 +230,7 @@
         // Tell screen readers that the content is not hidden anymore
         chatContainer.setAttribute('aria-hidden', false);
         // Toggle menu open variable
-        menuOpen = !menuOpen;
+        chatOpen = !chatOpen;
         // Prevent event from bubbling
         event.stopPropagation();
         // Focus on the text field
@@ -245,7 +245,7 @@
         // Reset toggle to close state
         chatToggle.classList.remove('open');
         resizeToggle();
-        menuOpen = false;
+        chatOpen = false;
         // Take focus out of chat text field...
         chatField.blur();
         // ...and focus on the toggle instead
@@ -271,7 +271,7 @@
       });
 
       window.addEventListener('keydown', (e) => {
-        if (e.key == 'Escape' && menuOpen) {
+        if (e.key == 'Escape' && chatOpen) {
           closeChat();
         }
       });
@@ -280,7 +280,7 @@
       window.addEventListener('click', (e) => {
         console.log('container:', chatContainer);
         console.log('event target:', e.target);
-        if (menuOpen && !chatContainer.contains(e.target)) {
+        if (chatOpen && !chatContainer.contains(e.target)) {
           closeChat();
         }
       });
