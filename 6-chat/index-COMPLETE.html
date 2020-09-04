@@ -262,24 +262,24 @@
       sendButton.addEventListener('click', addMsg);
 
       // Send message when hitting Enter
-      window.addEventListener('keydown', function (e) {
-        if (e.key == 'Enter') {
+      window.addEventListener('keydown', (event) => {
+        if (event.key == 'Enter') {
           addMsg();
         }
       });
 
       // Close chat when hitting Escape
-      window.addEventListener('keydown', (e) => {
-        if (e.key == 'Escape' && chatOpen) {
+      window.addEventListener('keydown', (event) => {
+        if (event.key == 'Escape' && chatOpen) {
           closeChat();
         }
       });
 
       // Detect click outside the chat container to close chat
-      window.addEventListener('click', (e) => {
+      window.addEventListener('click', (event) => {
         console.log('container:', chatContainer);
-        console.log('event target:', e.target);
-        if (chatOpen && !chatContainer.contains(e.target)) {
+        console.log('event target:', event.target);
+        if (chatOpen && !chatContainer.contains(event.target)) {
           closeChat();
         }
       });
