@@ -238,7 +238,9 @@
         chatContainer.classList.remove('visible');
         // Let screenreaders know that content is hidden
         chatContainer.setAttribute('aria-hidden', true);
+        // Resize toggle
         resizeToggle();
+        // Set boolean to false
         chatOpen = false;
         // Take focus out of chat text field...
         chatField.blur();
