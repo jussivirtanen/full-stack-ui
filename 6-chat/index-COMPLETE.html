@@ -205,10 +205,10 @@
         }
       };
 
-      const resizeToggle = (sourceWidth) => {
+      const resizeToggle = (targetWidth) => {
         // If menu is not open, set the width of the toggle equal to the chat window
         if (!chatOpen) {
-          chatToggle.style.minWidth = `${sourceWidth}px`;
+          chatToggle.style.minWidth = `${targetWidth}px`;
         } else {
           chatToggle.style.minWidth = `${originalWidth}px`;
         }
