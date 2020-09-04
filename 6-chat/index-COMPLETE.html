@@ -165,13 +165,13 @@
       let chatOpen = false;
 
       // Get chat toggle width
-      const originalWidth = chatToggle.offsetWidth;
+      const toggleWidth = chatToggle.offsetWidth;
 
       // Get chat container width
       const chatWidth = chatContainer.offsetWidth;
 
       // Set toggle width to be the minimum width of the toggle (for animation)
-      chatToggle.style.minWidth = `${originalWidth}px`;
+      chatToggle.style.minWidth = `${toggleWidth}px`;
 
       const toggleChat = (event) => {
         // Get clicked button
@@ -207,10 +207,10 @@
 
       const resizeToggle = (targetWidth) => {
         // If menu is not open, set the width of the toggle equal to the chat window
-        if (!chatOpen) {
-          chatToggle.style.minWidth = `${targetWidth}px`;
+        if (chatOpen) {
+          chatToggle.style.minWidth = `${toggleWidth}px`;
         } else {
-          chatToggle.style.minWidth = `${originalWidth}px`;
+          chatToggle.style.minWidth = `${targetWidth}px`;
         }
       };
 
