@@ -252,6 +252,13 @@
         chatToggle.focus();
       };
 
+      // Add response to a message
+      const addResponse = () => {
+        setTimeout(() => {
+          createBubble(chatWindow, 'Coffee sounds great!', '');
+        }, 1000);
+      };
+
       // Add event listeners to chat toggle and send button
       chatToggle.addEventListener('click', toggleChat);
       sendButton.addEventListener('click', addMsg);
@@ -286,13 +293,6 @@
           sendButton.classList.remove('active');
         }
       });
-
-      // Add response to a message
-      const addResponse = () => {
-        setTimeout(() => {
-          createBubble(chatWindow, 'Coffee sounds great!', '');
-        }, 1000);
-      };
     </script>
   </body>
 </html>
