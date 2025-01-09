@@ -1,4 +1,7 @@
-![](cover-image.png)
+![og-full-stack](https://github.com/user-attachments/assets/8a766ba5-650b-4231-9a6d-1b0938fab2a6)
+
+### ⚠️ Author's note
+The principles of this course are still valid, but bear in mind that some of the tools (especially Figma) might feel outdated, as I built this course in 2020.
 
 # Full Stack User Interface course
 
